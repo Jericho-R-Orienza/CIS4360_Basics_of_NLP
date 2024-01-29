@@ -59,7 +59,7 @@ def get_top_10_stemmed_words(B):
     return top_10
 
 # Replace 'your_file.json' with the path to your JSON file
-file_path = 'your_file.json'
+file_path = 'reviewSelected100cleaned.json'
 
 # Read and parse the JSON file with UTF-8 encoding
 with open(file_path, 'r', encoding='utf-8') as file:
@@ -80,7 +80,7 @@ print(f"Top 10 stemmed words for Business ID {b1_id}:")
 for word, count in top_10_b1:
     print(f"{word}: {count}")
 
-print("\nTop 10 stemmed words for Business ID {b2_id}:")
+print(f"\nTop 10 stemmed words for Business ID {b2_id}:")
 for word, count in top_10_b2:
     print(f"{word}: {count}")
 
