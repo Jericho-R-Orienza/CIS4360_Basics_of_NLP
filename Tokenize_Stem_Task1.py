@@ -19,9 +19,11 @@ from collections import Counter
 import re
 import nltk
 from nltk.stem.porter import PorterStemmer
+from nltk.corpus import stopwords
 
 # Ensure NLTK components are downloaded
 nltk.download('punkt')
+nltk.download('stopwords')
 
 def select_two_distinct_business_ids(data):
     b1 = random.choice(data)["business_id"]
@@ -38,8 +40,8 @@ def create_dataset_with_business_id(data, business_id):
     return [entry for entry in data if entry["business_id"] == business_id]
 
 def get_top_10_stemmed_words(B):
-    # Set of stop words
-    stop_words = set(["a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into", "is", "it", "no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "there", "these", "they", "this", "to", "was", "will", "with"])
+    # Get NLTK stop words
+    stop_words = set(stopwords.words('english'))
 
     # Initialize the Porter Stemmer
     stemmer = PorterStemmer()
@@ -76,11 +78,12 @@ B2 = create_dataset_with_business_id(data, b2_id)
 top_10_b1 = get_top_10_stemmed_words(B1)
 top_10_b2 = get_top_10_stemmed_words(B2)
 
-print(f"Top 10 stemmed words for Business ID {b1_id}:")
+print(f"\nTop 10 stemmed words for Business ID {b1_id}:")
 for word, count in top_10_b1:
     print(f"{word}: {count}")
 
 print(f"\nTop 10 stemmed words for Business ID {b2_id}:")
 for word, count in top_10_b2:
     print(f"{word}: {count}")
+
 
