@@ -1,3 +1,12 @@
+"""
+The directions for the third task are aas follows:
+
+Each review has a “star” rating in the range of 1 to 5. Randomly select 50 reviews (one from each
+business) of rating 1, extract the top-10 most frequent noun-adjective pairs from the
+sentences in these selected reviews. Example noun-adjective pairs are service-
+great, food-delicious, that appear in the same sentence. Do the same for 20 reviews
+of ratings 2, 3, 4, and 5, respectively.
+"""
 import json
 import random
 import nltk
@@ -41,7 +50,7 @@ def find_noun_adj_pairs(text):
     return pairs
 
 # Load the data
-data = load_data('reviewSelected100cleaned.json')  # Replace with your file path
+data = load_data('reviewSelected100cleaned.json')  
 
 # Process for each star rating
 for rating in range(1, 6):

@@ -1,3 +1,11 @@
+"""
+The directions for the second task are as follows:
+
+select 5 sentences from the dataset, and apply POS
+tagging. Show the tagging results. You need to show two sets of tagging results by
+using two different tagging methods (e.g., results from two tagging methods
+implemented in one toolkit, or results from two toolkits).
+"""
 import json
 import random
 import nltk
@@ -14,12 +22,14 @@ def load_data(file_path):
         data = json.load(file)
     return data
 
-# Function to randomly select 5 entries and extract their text
+# Function to randomly select 5 entries and extract their "text"
 def select_random_entries(data, count=5):
     selected_entries = random.sample(data, count)
     return [entry['text'] for entry in selected_entries]
 
 # Function to apply the first POS tagging method
+# Method 1: POS tagging individual sentences, applies POS tags to a list of tokenized words
+# Src: https://dev3lop.com/python-code-to-begin-part-of-speech-tagging-using-a-web-scrapped-website/#:~:text=One%20of%20the%20most%20popular,used%20standard%20for%20POS%20tagging.
 def pos_tag_texts_method1(texts):
     tagged_texts = []
     for text in texts:
@@ -28,13 +38,15 @@ def pos_tag_texts_method1(texts):
     return tagged_texts
 
 # Function to apply the second POS tagging method
+# Method 2: POS tagging multiple sentences together, more efficient with large sets of data
+# Src: https://www.nltk.org/api/nltk.tag.html
 def pos_tag_texts_method2(texts):
     tokenized_texts = [word_tokenize(text) for text in texts]
     tagged_texts = pos_tag_sents(tokenized_texts)
     return tagged_texts
 
 # Load the data
-data = load_data('reviewSelected100cleaned.json')  # Replace with your file path
+data = load_data('reviewSelected100cleaned.json') 
 
 # Select 5 random entries
 random_texts = select_random_entries(data)

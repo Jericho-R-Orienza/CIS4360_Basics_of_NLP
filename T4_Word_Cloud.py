@@ -1,3 +1,13 @@
+"""
+The directions for the fourth task are as follows:
+
+Choose three businesses at random and generate a Word Cloud
+depicting the words used in reviews for each selected business. A Word Cloud is a
+collection, or cluster, of words depicted in different sizes. The bigger and bolder
+the word appears, the more often it is mentioned within a given text and the more
+important it is.
+
+"""
 import json
 import random
 from wordcloud import WordCloud
@@ -33,7 +43,7 @@ def generate_word_cloud(text, title):
     plt.show()
 
 # Load the data
-data = load_data('reviewSelected100cleaned.json')  # Replace with your file path
+data = load_data('reviewSelected100cleaned.json')  
 
 # Get reviews for three businesses
 business_reviews = get_reviews_for_three_businesses(data)

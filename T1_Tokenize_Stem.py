@@ -14,16 +14,29 @@ semantic meaning such as a, the, of, and.
 """
 
 import json
+# json is used to parse JSON files.
+
 import random
+# random is used to get random business
+
 from collections import Counter
+# Counter is a dict subclass for counting hashable objects. Here we use it to count words efficiently.
+
 import re
+# (Regular Expression) module is used for string searching and manipulation. Here, it's used to find words in the text.
+
 import nltk
+# (Natural Language Toolkit) is used for tokenization and stopword removal.
+
 from nltk.stem.porter import PorterStemmer
+# PorterStemmer is used for stemming, the process of reducing words to their word stem or root form.
+
 from nltk.corpus import stopwords
+# dict of stop words used to filter
 
 # Ensure NLTK components are downloaded
-nltk.download('punkt')
-nltk.download('stopwords')
+nltk.download('punkt')  # for tokenization
+nltk.download('stopwords')  # dictionary for stop words
 
 def select_two_distinct_business_ids(data):
     b1 = random.choice(data)["business_id"]
@@ -39,7 +52,7 @@ def create_dataset_with_business_id(data, business_id):
     # Create a new dataset with entries having the specified Business ID
     return [entry for entry in data if entry["business_id"] == business_id]
 
-def get_top_10_stemmed_words(B):
+def get_top_10_words(B):
     # Get NLTK stop words
     stop_words = set(stopwords.words('english'))
 
@@ -49,18 +62,24 @@ def get_top_10_stemmed_words(B):
     # Combine all text fields into one large string
     all_text = " ".join([entry["text"] for entry in B])
 
-    # Tokenize and convert to lowercase, exclude stop words and stem
-    words = [stemmer.stem(word) for word in re.findall(r'\b\w+\b', all_text.lower()) if word not in stop_words]
+    # Tokenize and convert to lowercase, exclude stop words
+    words = [word for word in re.findall(r'\b\w+\b', all_text.lower()) if word not in stop_words]
 
-    # Count the words
-    word_counts = Counter(words)
+    # Count the non-stemmed words
+    non_stemmed_word_count = Counter(words)
 
-    # Get the top 10 most common stemmed words
-    top_10 = word_counts.most_common(10)
+    # Stem the words and count again
+    stemmed_words = [stemmer.stem(word) for word in words]
+    stemmed_word_count = Counter(stemmed_words)
 
-    return top_10
+    # Get the top 10 most common non-stemmed and stemmed words
+    top_10_non_stemmed = non_stemmed_word_count.most_common(10)
+    top_10_stemmed = stemmed_word_count.most_common(10)
 
-# Replace 'your_file.json' with the path to your JSON file
+    return top_10_non_stemmed, top_10_stemmed
+
+
+
 file_path = 'reviewSelected100cleaned.json'
 
 # Read and parse the JSON file with UTF-8 encoding
@@ -74,16 +93,25 @@ b1_id, b2_id = select_two_distinct_business_ids(data)
 B1 = create_dataset_with_business_id(data, b1_id)
 B2 = create_dataset_with_business_id(data, b2_id)
 
-# Find the top 10 stemmed words for each Business ID, excluding stop words
-top_10_b1 = get_top_10_stemmed_words(B1)
-top_10_b2 = get_top_10_stemmed_words(B2)
+# Find the top 10 words (stemmed and non-stemmed) for each Business ID, excluding stop words
+top_10_non_stemmed_b1, top_10_stemmed_b1 = get_top_10_words(B1)
+top_10_non_stemmed_b2, top_10_stemmed_b2 = get_top_10_words(B2)
 
-print(f"\nTop 10 stemmed words for Business ID {b1_id}:")
-for word, count in top_10_b1:
+print(f"\nTop 10 non-stemmed words for Business 1 ID {b1_id}:")
+for word, count in top_10_non_stemmed_b1:
     print(f"{word}: {count}")
 
-print(f"\nTop 10 stemmed words for Business ID {b2_id}:")
-for word, count in top_10_b2:
+print(f"\nTop 10 stemmed words for Business 1 ID {b1_id}:")
+for word, count in top_10_stemmed_b1:
     print(f"{word}: {count}")
+
+print(f"\nTop 10 non-stemmed words for Business 2 ID {b2_id}:")
+for word, count in top_10_non_stemmed_b2:
+    print(f"{word}: {count}")
+
+print(f"\nTop 10 stemmed words for Business 2 ID {b2_id}:")
+for word, count in top_10_stemmed_b2:
+    print(f"{word}: {count}")
+
 
 
