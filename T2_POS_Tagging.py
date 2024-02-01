@@ -17,7 +17,7 @@ nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
 # Function to load data from the JSON file
-def load_data(file_path):
+def read_file(file_path):
     with open(file_path, 'r', encoding = 'utf-8') as file:
         data = json.load(file)
     return data
@@ -46,7 +46,7 @@ def pos_tag_texts_method2(texts):
     return tagged_texts
 
 # Load the data
-data = load_data('reviewSelected100cleaned.json') 
+data = read_file('reviewSelected100cleaned.json') 
 
 # Select 5 random entries
 random_texts = select_random_entries(data)

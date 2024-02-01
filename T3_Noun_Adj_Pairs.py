@@ -22,7 +22,7 @@ nltk.download('averaged_perceptron_tagger')
 nltk.download('stopwords')
 
 # Function to load data from the JSON file
-def load_data(file_path):
+def read_file(file_path):
     with open(file_path, 'r', encoding = 'utf-8') as file:
         data = json.load(file)
     return data
@@ -50,7 +50,7 @@ def find_noun_adj_pairs(text):
     return pairs
 
 # Load the data
-data = load_data('reviewSelected100cleaned.json')  
+data = read_file('reviewSelected100cleaned.json')  
 
 # Process for each star rating
 for rating in range(1, 6):

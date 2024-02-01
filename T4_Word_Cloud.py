@@ -14,13 +14,13 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
 # Function to load data from the JSON file
-def load_data(file_path):
+def read_file(file_path):
     with open(file_path, 'r', encoding = 'utf-8') as file:
         data = json.load(file)
     return data
 
 # Function to randomly select three businesses and collect their reviews
-def get_reviews_for_three_businesses(data):
+def choose_three_businesses(data):
     selected_businesses = random.sample(data, 3)
     reviews = {}
     for business in selected_businesses:
@@ -31,10 +31,8 @@ def get_reviews_for_three_businesses(data):
     return reviews
 
 # Function to generate a word cloud
-def generate_word_cloud(text, title):
-    wordcloud = WordCloud(width = 800, height = 800, 
-                          background_color ='white', 
-                          min_font_size = 10).generate(text)
+def create_word_cloud(text, title):
+    wordcloud = WordCloud(width = 800, height = 800, background_color ='white', min_font_size = 10).generate(text)
     plt.figure(figsize = (8, 8), facecolor = None) 
     plt.imshow(wordcloud) 
     plt.axis("off") 
@@ -43,11 +41,11 @@ def generate_word_cloud(text, title):
     plt.show()
 
 # Load the data
-data = load_data('reviewSelected100cleaned.json')  
+data = read_file('reviewSelected100cleaned.json')  
 
 # Get reviews for three businesses
-business_reviews = get_reviews_for_three_businesses(data)
+business_reviews = choose_three_businesses(data)
 
 # Generate and display word clouds for each business
 for business_id, reviews in business_reviews.items():
-    generate_word_cloud(reviews, f'Word Cloud for Business ID: {business_id}')
+    create_word_cloud(reviews, f'Word Cloud for Business ID: {business_id}')
