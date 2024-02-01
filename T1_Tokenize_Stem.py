@@ -38,18 +38,19 @@ from nltk.corpus import stopwords
 nltk.download('punkt')  # for tokenization
 nltk.download('stopwords')  # dictionary for stop words
 
-def select_two_distinct_business_ids(data):
+#b1 and b2 holds the ID value while B1 and B2 will hold the data of the randomly selected IDs
+def choose_two_random_business(data):
     b1 = random.choice(data)["business_id"]
 
-    # Select b2 and ensure it's different from b1
+    # Check we do not select a dupe for b2
     b2 = random.choice(data)["business_id"]
     while b2 == b1:
         b2 = random.choice(data)["business_id"]
     
     return b1, b2
 
-def create_dataset_with_business_id(data, business_id):
-    # Create a new dataset with entries having the specified Business ID
+def create_bussiness_ID_set(data, business_id):
+    # Creating the data set for B1 and B2
     return [entry for entry in data if entry["business_id"] == business_id]
 
 def get_top_10_words(B):
@@ -87,29 +88,29 @@ with open(file_path, 'r', encoding='utf-8') as file:
     data = json.load(file)
 
 # Randomly select two distinct Business IDs
-b1_id, b2_id = select_two_distinct_business_ids(data)
+b1, b2 = choose_two_random_business(data)
 
 # Create datasets for the selected Business IDs
-B1 = create_dataset_with_business_id(data, b1_id)
-B2 = create_dataset_with_business_id(data, b2_id)
+B1 = create_bussiness_ID_set(data, b1)
+B2 = create_bussiness_ID_set(data, b2)
 
 # Find the top 10 words (stemmed and non-stemmed) for each Business ID, excluding stop words
 top_10_non_stemmed_b1, top_10_stemmed_b1 = get_top_10_words(B1)
 top_10_non_stemmed_b2, top_10_stemmed_b2 = get_top_10_words(B2)
 
-print(f"\nTop 10 non-stemmed words for Business 1 ID {b1_id}:")
+print(f"\nTop 10 non-stemmed words for Business 1 ID {b1}:")
 for word, count in top_10_non_stemmed_b1:
     print(f"{word}: {count}")
 
-print(f"\nTop 10 stemmed words for Business 1 ID {b1_id}:")
+print(f"\nTop 10 stemmed words for Business 1 ID {b1}:")
 for word, count in top_10_stemmed_b1:
     print(f"{word}: {count}")
 
-print(f"\nTop 10 non-stemmed words for Business 2 ID {b2_id}:")
+print(f"\nTop 10 non-stemmed words for Business 2 ID {b2}:")
 for word, count in top_10_non_stemmed_b2:
     print(f"{word}: {count}")
 
-print(f"\nTop 10 stemmed words for Business 2 ID {b2_id}:")
+print(f"\nTop 10 stemmed words for Business 2 ID {b2}:")
 for word, count in top_10_stemmed_b2:
     print(f"{word}: {count}")
 
